@@ -1,0 +1,7 @@
+<!-- Bloc à placer dans /var/ossec/etc/ossec.conf (dans <ossec_config>) -->
+<integration>
+  <name>custom-discord</name>
+  <hook_url>https://discord.com/api/webhooks/VOTRE_ID/VOTRE_TOKEN</hook_url>
+  <level>8</level>
+  <alert_format>json</alert_format>
+</integration>

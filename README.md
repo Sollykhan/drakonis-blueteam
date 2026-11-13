@@ -52,8 +52,8 @@ Le schéma détaillé est dans [`schemas/architecture.drawio`](schemas/architect
 
 ### 4. Supervision
 - **Wazuh** (manager, indexer, dashboard) sur Debian dans le VLAN serveurs, avec agents et **Sysmon** sur les postes Windows, et ingestion des journaux AWS (CloudTrail, GuardDuty).
-- **Suricata** (IDS) sur le même serveur, mis en service en toute fin de projet après une configuration longue : il n'a tourné que quelques heures.
-- **Alerting Wazuh → Discord** : intégration développée de zéro (script Python appelé par le bloc `<integration>` de `ossec.conf`, correction d'un bug de lecture des arguments, filtrage des alertes SCA trop bruyantes). *Le script nettoyé sera ajouté dans `supervision/`.*
+- **Suricata** (IDS), mis en service en toute fin de projet après une configuration longue : il n'a tourné que quelques heures.
+- **Alerting Wazuh → Discord** : intégration développée de zéro (script Python appelé par le bloc `<integration>` de `ossec.conf`, correction d'un bug de lecture des arguments, seuil au niveau 8 pour couper le bruit). Code et installation : [`supervision/`](supervision/).
 - Trouvailles en cours de route : règles UFW asymétriques entre IPv4 et IPv6 ; injection de journaux de test avec `logger -t` sous systemd-journald ; empreintes TCP différentes entre une attaque lancée depuis WSL et depuis Kali natif.
 
 ## Pentest croisé (48 h, Grey Box, orientation Purple Team)
