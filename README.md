@@ -52,6 +52,7 @@ Le schéma détaillé est dans [`schemas/architecture.drawio`](schemas/architect
 
 ### 4. Supervision
 - **Wazuh** (manager, indexer, dashboard) sur Debian dans le VLAN serveurs, avec agents et **Sysmon** sur les postes Windows, et ingestion des journaux AWS (CloudTrail, GuardDuty).
+- **Suricata** (IDS) sur le même serveur, mis en service en toute fin de projet après une configuration longue : il n'a tourné que quelques heures.
 - **Alerting Wazuh → Discord** : intégration développée de zéro (script Python appelé par le bloc `<integration>` de `ossec.conf`, correction d'un bug de lecture des arguments, filtrage des alertes SCA trop bruyantes). *Le script nettoyé sera ajouté dans `supervision/`.*
 - Trouvailles en cours de route : règles UFW asymétriques entre IPv4 et IPv6 ; injection de journaux de test avec `logger -t` sous systemd-journald ; empreintes TCP différentes entre une attaque lancée depuis WSL et depuis Kali natif.
 
@@ -73,10 +74,10 @@ Le rapport complet n'est pas publié : il décrit l'infrastructure d'une autre �
 ## Limites assumées
 
 - Laboratoire pédagogique : certificats auto-signés, pas de MFA, VLAN Backup qui traverse encore les routeurs.
-- **Suricata** était prévu dès la conception, mais n'a pas été déployé dans le temps imparti : c'est le premier axe d'amélioration identifié.
+- **Suricata** était prévu dès la conception mais n'a été opérationnel qu'en toute fin de projet : pas assez de recul pour régler ses règles ni corréler ses alertes avec Wazuh.
 
 ---
 
 ## English summary
 
-Final project of the Jedha cybersecurity bootcamp (team of five). I was the **network & security lead**: VLAN segmentation with a self-describing addressing scheme, default-deny pfSense policy (~55 rules, 9 interfaces), **pfSense CARP/XMLRPC HA** and **Cisco HSRP** core, **Wazuh + Sysmon** monitoring with AWS log ingestion and a **custom Wazuh → Discord alerting integration** written from scratch. During the 48-hour cross pentest, my team found 11 vulnerabilities on the opposing infrastructure (Kerberoasting, weak password policy, unauthenticated order API…), while the opposing team found no path to Domain Admin on ours. Our main gap was Windows patch management.
+Final project of the Jedha cybersecurity bootcamp (team of five). I was the **network & security lead**: VLAN segmentation with a self-describing addressing scheme, default-deny pfSense policy (~55 rules, 9 interfaces), **pfSense CARP/XMLRPC HA** and **Cisco HSRP** core, **Wazuh + Sysmon** monitoring (plus a Suricata IDS brought online at the very end) with AWS log ingestion and a **custom Wazuh → Discord alerting integration** written from scratch. During the 48-hour cross pentest, my team found 11 vulnerabilities on the opposing infrastructure (Kerberoasting, weak password policy, unauthenticated order API…), while the opposing team found no path to Domain Admin on ours. Our main gap was Windows patch management.
